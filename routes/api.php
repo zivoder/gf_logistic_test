@@ -5,6 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 
+Route::prefix('deliveries')
+    ->group(function () {
+        Route::post('{delivery}/status-change', [\App\Http\Controllers\DeliveryController::class, 'statusChange']);
+    });
+
+// Это не нужно
 Route::prefix('v{version}')
     ->middleware('clear_version')
     ->group(function () {
