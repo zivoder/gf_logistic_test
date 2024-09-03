@@ -1,93 +1,78 @@
-# Laravel Empty Project
+# Тестовое задание на должность техлида разработки логистики
 
-[![Coverage Status](https://coveralls.io/repos/github/RonasIT/laravel-empty-project/badge.svg?branch=development)](https://coveralls.io/github/RonasIT/laravel-empty-project?branch=development)
+**Тематика:** Создание системы уведомлений для логистической компании.
 
-This repository can be used to scaffold a Laravel project.
+## Задание:
 
-## Prerequisites
+### 1. Разработка
 
-To work with this repository, you will need to have the following
-installed:
+Вам необходимо разработать простую систему управления статусом доставки.
 
-- [Docker](https://www.docker.com)
+Статус может изменяться только
+по порядку
+- planned (запланирован)
+- shipped (отгружен/в пути)
+- delivered (доставлен)
 
-## Getting Started
+После перехода в статус доставлен должно вызываться событие DeliveryDelivered, которое впослетствии будет
+отправлять уведомление заказчику.
 
-To get started with this repository, follow these steps:
+### 2. Тестирование
 
-Clone this repository to your local machine.
+Необходимо реализовать автотесты, которое проверит все необходимые (по мнению исполнителя) кейсы и узкие места
 
-```sh
-git clone git@github.com:RonasIT/laravel-empty-project.git
+### 3. Перспективы
+
+Задание рассчитано на 1 час работы. Если вы не готовы тратить больше (и даже если потратили больше),
+необходимо описать необходимые доработки в виде TODO или сопроводительного письма
+
+## Текущее состояние
+
+- Реализована модель Delivery и миграция с полями
+  - id (автоинкремент)
+  - status
+- Реализован DeliveryTest проверяющий нормальный флоу выполнения задачи
+- Реализован DeliveryController с грубой реализацией, которую необходимо исправить
+- Реализовано событие DeliveryDelivered, которое необходимо вызывать
+
+## Требования:
+
+- Проверка задания будет проходить через запуск автотестов DeliveryTest в контейнере докера.
+   - При изменении докер файлов, необходимо аргументировать эти изменения
+- Минимум логики в контроллере, тащим логику в сервисы
+- Продемонстрировать владение
+   - ServiceProvider
+   - Observer
+- Учесть масштабируемость.
+   - Добавление новых статусов в цепочку должно быть легким и непринужденным
+   - Продумать, что переходы из статуса в статус могут требовать дополнительных полей. Например, необходимость информации о назначенном водителе на доставку
+- Убедитесь, что код соответствует стандартам PSR
+- Все не очевидные места дополнены комментариями
+
+## Приемка
+
+В качестве выполнено тестового задания принимается ссылка на гит репозиторий с этим проектом. Сопроводительное письмо можно описать в дополнение к этому README
+
+## Оценка:
+
+Задание будет оцениваться по следующим критериям:
+
+- Корректность реализации (работает ли система как задумано).
+- Чистота и структура кода.
+- Соответствие требованиям задания.
+- Эффективность использования возможностей Laravel.
+
+**Время на выполнение:** 1 час.
+
+## Инструкция по развороту
+
+При развороте через докер достаточно запустить одну команду 
+
+```
+make build
+make up
 ```
 
-Remove the existing GitHub [remote](https://git-scm.com/docs/git-remote).
+---
 
-```sh
-git remote remove origin
-```
-
-Add your project remote.
-
-```sh
-git remote add origin <project_git_url>
-```
-
-Build and start containers. It may takes some time.
-
-```sh
-docker compose up -d
-```
-
-Check docker containers health status.
-
-```sh
-docker ps
-```
-
-You should see something like this.
-
-```
-CONTAINER ID   IMAGE                       COMMAND                  CREATED              STATUS              PORTS                                                NAMES
-5ae2e24d63bb   ronasit/php-nginx-dev:8.1   "/entrypoint bash -c…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 9000/tcp   laravel-empty-project-nginx-1
-ef37a992c53c   webdevops/php:8.1-alpine    "/entrypoint supervi…"   About a minute ago   Up About a minute   9000/tcp                                             laravel-empty-project-php-1
-e02e9f746731   ronasit/postgres:12.5       "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5433->5432/tcp                               laravel-empty-project-pgsql_test-1
-4e1fda859342   ronasit/postgres:12.5       "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5432->5432/tcp                               laravel-empty-project-pgsql-1
-728c83486f92   redis:6.2.3                 "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:6379->6379/tcp                               laravel-empty-project-redis-1
-```
-
-Connect to the `nginx` container.
-
-```sh
-docker exec -i -t laravel-empty-project-nginx-1 /bin/bash
-```
-
-Init your new project.
-
-```sh
-php artisan init <project_name>
-```
-
-Set required configs: `contact.email` in the `configs/auto-doc.php`.
-
-Run tests to generate documentation
-
-```sh
-php vendor/bin/phpunit tests/
-```
-
-API documentation can be accessed by visiting `http://localhost` in your
-web browser.
-
-### Environments
-
-This repository by default supports three environments: `local`, `development`,
-and `testing`. Each environment is represented by an appropriate environment file:
-
-- .env
-- .env.development
-- .env.testing
-
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Удачи!
